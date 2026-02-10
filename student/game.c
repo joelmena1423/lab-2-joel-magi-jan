@@ -124,7 +124,9 @@ void free_state(State *s){
 }
 
 void free_game(Game *g){
-    // ToDo - Lab 2
+    g -> score = 0; // resetegem score
+    g -> level = 0; // resetegem level
+    free(&g -> state); // alliberem la memòria del state
 }
 
 char** make_grid(int rows, int columns){
