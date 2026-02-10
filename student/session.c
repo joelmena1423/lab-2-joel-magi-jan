@@ -2,14 +2,20 @@
 
 // LAB 1 - functions 
 void restart_session_game(Session *session){
-   init_game(&session ->current_game);
+    //ACTUALITZAR
+    //frees the current game and initializes it again.
+    if(session != NULL){
+        free_session(&session);
+    }
+    init_game(&session ->current_game);
 }
 
 void init_session(Session *session){
+    //ACTUALITZAR
     for(int level = 0; level < MAX_LEVELS; level++){
         session ->best_score[level] = 0;
     }
-    restart_session_game(session);
+    restart_session_game(&session);
 }
 
 void print_session(Session *session){
@@ -29,4 +35,17 @@ void new_game_score(Session *session){
 // LAB 2 - functions
 void free_session(Session *s){
 	// ToDo - Lab 2
+    //OBJECTIU HA DE SER ALLIBERAR LA MEMÒRIA OCUPADA PER AQUESTA PARTIDA
+    //s->current_game.state.grid;
+
+    if(s != NULL){
+        free_game(&(s->current_game));
+    }
+
+    // ALLIBERACIÓ MEMÒRIA D'UNA MATRIU - EXEMPLE
+    /*for(int i = 0; i < 2; i++){
+	    free(matrix[i]);
+    }
+    free(matrix);*/
+
 }
