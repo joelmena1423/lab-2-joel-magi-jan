@@ -96,21 +96,107 @@ void choose_level(Game *game){
 
 /**** LAB 1 - functions to program (start here) ****/
 void print_state(State s){
-    // ToDo - Lab 1
+    for(int i=0; i<s.rows; i++){
+        for(int j = 0; j < s.columns; j++){ 
+            printf("%c", s.grid[i][j]); 
+        }
+        printf("\n"); 
+    }
 }
 
 void print_game(Game game){
-    // ToDo - Lab 1
+    printf("Puntuació: %d\n", game.score);
+    printf("Nivell: %d\n", game.level);
+    print_state(game.state);
 }
 
 
 bool is_terminal(State s){
-    // ToDo - Lab 1
-    return false;
+    int i, j;    
+    for(i = 0; i < s.rows; i++){
+        for(j = 0; j < s.columns; j++){ 
+            if(s.grid[i][j] == 'B')
+                return false;
+        }
+    }
+    return true;
 }
 
 State move(State s, Option o){
-	// ToDo - Lab 1
+    int dr = 0, dc = 0; 
+    switch(o){ 
+        case MOVE_UP:
+            dr = -1;
+            break;
+        case MOVE_RIGHT:
+            dc = 1;
+            break;
+        case MOVE_DOWN:
+            dr = 1;
+            break;
+        case MOVE_LEFT:
+            dc = -1;
+            break;
+        default:   
+            return s;
+    }
+
+    int r = -1;
+    int c = -1;  
+    for(int i = 0; i < s.rows; i++){ 
+        for(int j = 0; j < s.columns; j++){
+            if(s.grid[i][j] == 'A' || s.grid[i][j] == 'Y'){ 
+                r = i;
+                c = j;
+            }
+        }
+    }
+	
+    int nr = r + dr;
+    int nc = c + dc;
+
+    int nnr = r + 2*dr;
+    int nnc = c + 2*dc;
+
+    if( nr < 0 || nr >= s.rows || nc < 0 || nc >= s.columns)
+        return s;
+
+    char next = s.grid[nr][nc];
+
+    if(next == '.' || next == 'G'){
+        if(s.grid[r][c] == 'Y')
+            s.grid[r][c] = 'G';
+        else
+            s.grid[r][c] = '.';
+        if(next == 'G') 
+            s.grid[nr][nc] = 'Y';
+        else
+            s.grid[nr][nc] = 'A';
+
+        return s;
+    }
+    if(next == 'B' || next == 'X'){ 
+        if(nnr < 0 || nnr >= s.rows || nnc < 0 || nnc >= s.columns)
+            return s;
+
+        char next2 = s.grid[nnr][nnc];
+            if(next2 == 'G') 
+                s.grid[nnr][nnc] = 'X';
+            else
+                s.grid[nnr][nnc] = 'B';
+            
+            if(next == 'X') 
+                s.grid[nr][nc] = 'Y';
+            else
+                s.grid[nr][nc] = 'A';
+            
+            if(s.grid[r][c] == 'Y') 
+                s.grid[r][c] = 'G';
+            else
+                s.grid[r][c] = '.';
+
+            return s;
+    }
     return s;
 }
 
@@ -130,7 +216,11 @@ void free_game(Game *g){
 }
 
 char** make_grid(int rows, int columns){
-
+    char **matrix = malloc(columns *sizeof(char*)); // reservem memòria per les columnes
+    for(int i = 0; i < columns; i++){ // recorrem les columnes
+        matrix[i] = malloc(rows * sizeof(char)); // reservem memòria per les files de cada columna
+    }
+    return matrix; // retornem la matriu
 }
 /**** LAB 2 - functions to program (end here) ****/
 
