@@ -205,8 +205,20 @@ State move(State s, Option o){
 
 
 /**** LAB 2 - functions to program (start here) ****/
+
 void free_state(State *s){
-    // ToDo - Lab 2
+    if(s == NULL) return; // si el state és null, no fem res
+
+    if(s -> grid != NULL){ // si el taulell no és null, alliberem la memòria de cada fila
+        for(int i = 0; i < s -> rows; i++){ // recorrem les files
+            free(s -> grid[i]); // alliberem la memòria de cada fila
+        }
+        free(s -> grid); // alliberem la memòria dels vectors de punters a les files
+        s -> grid = NULL; // posem el punter a null
+
+    }
+    s -> rows = 0; // resetegem el número de files
+    s -> columns = 0; // resetegem el número de columnes
 }
 
 void free_game(Game *g){
