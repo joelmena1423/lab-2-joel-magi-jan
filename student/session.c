@@ -5,7 +5,7 @@ void restart_session_game(Session *session){
     //ACTUALITZAR
     //frees the current game and initializes it again.
     if(session != NULL){
-        free_session(&session);
+        free_session(session);
     }
     init_game(&session ->current_game);
 }
@@ -15,7 +15,7 @@ void init_session(Session *session){
     for(int level = 0; level < MAX_LEVELS; level++){
         session ->best_score[level] = 0;
     }
-    restart_session_game(&session);
+    restart_session_game(session);
 }
 
 void print_session(Session *session){
