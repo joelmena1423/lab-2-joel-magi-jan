@@ -43,7 +43,28 @@ void new_game(Session *session){
 }
 
 void save_game(Session *session){
-    // ToDo - Lab 2
+    char filename[100];
+    FILE * f;
+    scanf("%s", filename);
+    f = fopen(filename, "w");
+    if (f == NULL){
+        return;
+    }
+    //anar de session a game i de game a score i a state
+    printf(f, "Score:  %d\n", session-> score);
+    printf(f, "Level: %d\n", session -> level);
+    printf("State: \n");
+    printf(f, "Rows: %d\n", session -> rows);
+    printf(f, "Columns: %d\n", session -> columns);
+
+    for (int i = 0; i < session->rows; i++) {
+        for (int j = 0; j < session->columns; j++) {
+            fprintf(f, "%c", session->state[i][j]);
+        }
+        fprintf(f, "\n");
+    }
+
+    fclose(f);  // ToDo - Lab 2
 }
 
 void load_game(Session *session){
