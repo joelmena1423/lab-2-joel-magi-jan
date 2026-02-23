@@ -180,22 +180,25 @@ State move(State s, Option o){
             return s;
 
         char next2 = s.grid[nnr][nnc];
-            if(next2 == 'G') 
-                s.grid[nnr][nnc] = 'X';
-            else
-                s.grid[nnr][nnc] = 'B';
-            
-            if(next == 'X') 
-                s.grid[nr][nc] = 'Y';
-            else
-                s.grid[nr][nc] = 'A';
-            
-            if(s.grid[r][c] == 'Y') 
-                s.grid[r][c] = 'G';
-            else
-                s.grid[r][c] = '.';
-
+        if(next2 != '.' && next2 != 'G'){
             return s;
+        }
+        if(next2 == 'G') 
+            s.grid[nnr][nnc] = 'X';
+        else
+            s.grid[nnr][nnc] = 'B';
+        
+        if(next == 'X') 
+            s.grid[nr][nc] = 'Y';
+        else
+            s.grid[nr][nc] = 'A';
+            
+        if(s.grid[r][c] == 'Y') 
+            s.grid[r][c] = 'G';
+        else
+            s.grid[r][c] = '.';
+
+        return s;
     }
     return s;
 }
@@ -224,13 +227,13 @@ void free_state(State *s){
 void free_game(Game *g){
     g -> score = 0; // resetegem score
     g -> level = 0; // resetegem level
-    free(&g -> state); // alliberem la memòria del state
+    free_state(&(g -> state)); // alliberem la memòria del state
 }
 
 char** make_grid(int rows, int columns){
-    char **matrix = malloc(columns *sizeof(char*)); // reservem memòria per les columnes
-    for(int i = 0; i < columns; i++){ // recorrem les columnes
-        matrix[i] = malloc(rows * sizeof(char)); // reservem memòria per les files de cada columna
+    char **matrix = malloc(rows *sizeof(char*)); // reservem memòria per les files
+    for(int i = 0; i < rows; i++){ // recorrem les files
+        matrix[i] = malloc(columns * sizeof(char)); // reservem memòria per les columnes de cada fila
     }
     return matrix; // retornem la matriu
 }

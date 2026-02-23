@@ -1,0 +1,8 @@
+Score:  1
+Level: 1
+State: 
+Rows: 3
+Columns: 8
+########
+#A..B.G#
+########
