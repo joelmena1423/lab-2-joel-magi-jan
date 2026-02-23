@@ -43,16 +43,31 @@ void new_game(Session *session){
 }
 
 void save_game(Session *session){
-    // ToDo - Lab 2
+    
+    char filename[100]; // array que emagatzema una memoria
+    FILE * f; //punter que apunta a un fitxer obert
+    scanf("%s", filename);   
+    f = fopen(filename, "w"); //obri el fitxer 
+    if (f == NULL){ //agafa l'error de fopen, si no hi ha res es null i no retorna res, voldrà dir que el fitxer no s'ha pogut obrir.
+        return;
+    }
+    fprintf(f, "Score:  %d\n", session-> current_game.score);
+    fprintf(f, "Level: %d\n", session -> current_game.level);  //el fprintf permet guardar les dades dins el fitxer
+    fprintf(f,"State: \n");
+    fprintf(f, "Rows: %d\n", session -> current_game.state.rows);
+    fprintf(f, "Columns: %d\n", session -> current_game.state.columns);
+
+    for (int i = 0; i < session-> current_game.state.rows; i++) {            //guarda el taulell del joc
+        for (int j = 0; j < session-> current_game.state.columns; j++) {
+            fprintf(f, "%c", session-> current_game.state.grid[i][j]);
+        }
+        fprintf(f, "\n");
+    }
+
+    fclose(f);  // ToDo - Lab 2
+
 }
 
-<<<<<<< Updated upstream
-void load_game(Session *session){
-    // ToDo - Lab 2
-}
-
-void resume_game(Session *session){
-=======
 
 void load_game(Session *session) {
 
@@ -111,9 +126,8 @@ void resume_game(Session *session) {
 
     run_game(session);  // mateixa funció que uses a New Game
 }
->>>>>>> Stashed changes
     // ToDo - Lab 2  	
-}
+
 
 void print_menu(){
     printf("[INFO] Menu options:\n");
